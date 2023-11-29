@@ -4,6 +4,7 @@ import LoginView from '../views/LoginView.vue'
 import MainView from '../views/MainView.vue'
 import Welcome from '../views/Welcome.vue'
 import Student from '../views/Student.vue'
+import FlightView from '../views/FlightView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -17,7 +18,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/main',
-    component: MainView,
+    component: FlightView,
     children: [
       { path: '/', component: Welcome },
       { path: '/showStudent', component: Student }

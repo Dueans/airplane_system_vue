@@ -8,30 +8,7 @@
       <!-- <el-table-column label="操作">
       </el-table-column> -->
     </el-table>
-    <!-- <el-table :data="students" stripestyle="width: 100%">
-      <el-table-column v-for="(item, index) in tableHeader" :key="index" :label="item" :prop="item"></el-table-column>
 
-    </el-table> -->
-
-    <!-- Form -->
-    <!-- <el-dialog title="修改学生信息" :visible="dialogFormVisible">
-      <el-form :model="student">
-        <el-form-item label="学生ID" :label-width="formLabelWidth">
-          <el-input v-model="student.id" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="学生姓名" :label-width="formLabelWidth">
-          <el-input v-model="student.name" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="学生性别" :label-width="formLabelWidth">
-          <el-input v-model="student.sex" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="学生年龄" :label-width="formLabelWidth">
-          <el-input v-model="student.age" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
-    </el-dialog> -->
-
-    <!-- Form -->
     <el-button type="primary" @click="addView()">添加学生信息</el-button>
   </div>
 </template>
@@ -66,14 +43,34 @@ export default {
 
     // 进入页面自动刷新
     const showStudentList = () => {
-      getStudentList().then(res => {
-        let studentList = res.data
-        console.log(studentList)
+      let studentList = [{
+          id: 1,
+          name: '张的妹',
+          sex: '女',
+          age: '23',
+        },
+        {
+          id: 2,
+          name: '点进去',
+          sex: '男',
+          age: '24',
+        },
+        {
+          id: 3,
+          name: '使用了',
+          sex: '女',
+          age: '27',
+        },]
+
         students.value = studentList
-        alert('好好好   打通了')
-      }).catch((error) => {
-        alert(error)
-      })
+      // getStudentList().then(res => {
+      //   let studentList = res.data
+      //   console.log(studentList)
+      //   students.value = studentList
+      //   alert('好好好   打通了')
+      // }).catch((error) => {
+      //   alert(error)
+      // })
     }
 
     onMounted(() => {
