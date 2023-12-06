@@ -353,12 +353,14 @@ export default defineComponent({
       const temp = dep_value.value
       dep_value.value = des_value.value
       des_value.value = temp
-
-      let target = evt.target;
+      outFocus(evt.target)
+    }
+    // 点击后失焦
+    const outFocus = (target: any) => {
       console.log(target.nodeName);
       
       if (target.nodeName == "DIV") {
-        target = evt.target.parentNode.parentNode;
+        target = target.parentNode.parentNode;
       }
 
       console.log(target);
@@ -416,7 +418,7 @@ export default defineComponent({
 
     onMounted(() => {
       nextTick(() => {
-        console.log(1);
+        console.log('首页');
         // console.log(moment());
       })
     })
