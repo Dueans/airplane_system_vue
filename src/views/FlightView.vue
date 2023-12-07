@@ -1,15 +1,12 @@
 <template>
-  <!-- <div class="flight">
-
-  </div> -->
   <el-container class="flight">
     <el-header class="header-style">
       <el-row :gutter="10">
         <el-col :span="3">
           <div class="other-date">
             <el-date-picker style="width: 170px;" v-model="dateValue" type="date" placeholder="选择其他时间" size="large"
-              :disabled-date="disabledDate" :shortcuts="shortcuts" format="YYYY/MM/DD" value-format="YYYY-MM-DD" 
-              @change="changeDate"/>
+              :disabled-date="disabledDate" :shortcuts="shortcuts" format="YYYY/MM/DD" value-format="YYYY-MM-DD"
+              @change="changeDate" />
           </div>
         </el-col>
         <el-col :offset="7" :span="1">
@@ -23,7 +20,7 @@
           </div>
         </el-col>
         <el-col :span="1">
-          <div class="grid-content bg-purple-light">
+          <div class="grid-content">
             <span class="city-name"> {{ desti_city }} </span>
           </div>
         </el-col>
@@ -38,7 +35,7 @@
       <el-aside class="date-selector" width="200px">
         <el-menu v-for="(item, index) in dateInfo" :key="index" :default-active="active">
           <el-menu-item class="menu-item" @click="dateSelectHandler" :index="item.index">
-            <span>{{ item.date }}</span>
+            <span>{{ item.month }}月{{ item.day }}日</span>
           </el-menu-item>
         </el-menu>
       </el-aside>
@@ -81,12 +78,12 @@
 </template>
 
 <script lang="ts">
-import { it } from 'element-plus/es/locale';
+import { el, it } from 'element-plus/es/locale';
 import { ref, onMounted, nextTick, defineComponent } from 'vue'
 import { useRouter } from "vue-router";
 
 export default defineComponent({
-  name: 'LoginView',
+  name: 'FlightView',
 
   setup(props) {
     const router = useRouter()
@@ -141,81 +138,121 @@ export default defineComponent({
       refreshDateList()
     }
 
-    const dateList = ref([])
     // 日期静态信息，一共十一个
     const dateInfo = ref([
       {
-        date: '5月19日',
+        year: 2023,
+        month: 5,
+        day: 25,
         index: '1',
       },
       {
-        date: '5月20日',
+        year: 2023,
+        month: 5,
+        day: 25,
         index: '2',
       },
       {
-        date: '5月21日',
+        year: 2023,
+        month: 5,
+        day: 25,
         index: '3',
       },
       {
-        date: '5月19日',
+        year: 2023,
+        month: 5,
+        day: 25,
         index: '4',
       },
       {
-        date: '5月19日',
+        year: 2023,
+        month: 5,
+        day: 25,
         index: '5',
       },
       {
-        date: '5月19日',
+        year: 2023,
+        month: 5,
+        day: 25,
         index: '6',
       },
       {
-        date: '5月19日',
+        year: 2023,
+        month: 5,
+        day: 25,
         index: '7',
       },
       {
-        date: '5月19日',
+        year: 2023,
+        month: 5,
+        day: 25,
         index: '8',
       },
       {
-        date: '5月19日',
+        year: 2023,
+        month: 5,
+        day: 25,
         index: '9',
       },
       {
-        date: '5月19日',
+        year: 2023,
+        month: 5,
+        day: 25,
         index: '10',
       },
       {
-        date: '5月19日',
+        year: 2023,
+        month: 5,
+        day: 25,
         index: '11',
       },
 
     ])
     // 刷新左侧日期列表
+    const getDateAdd = (day: number, nowDate: any) => {
+      if (nowDate.day + 1 <= day) {
+        nowDate.day = nowDate.day + 1
+      } else {
+        nowDate.day = 1
+        if (nowDate.month + 1 <= 12) {
+          nowDate.month = nowDate.month + 1
+        } else {
+          nowDate.month = 1
+          nowDate.year = nowDate.year + 1
+        }
+      }
+      return { day: nowDate.day, month: nowDate.month, year: nowDate.year }
+    }
     const refreshDateList = () => {
-      let monthNumber = month.value
-      let dayNumber = day.value
+      let date = {
+        year: year.value,
+        month: month.value,
+        day: day.value
+      }
 
       for (let i = 0; i < 11; i++) {
-        dateInfo.value[i].date = monthAndDate(monthNumber, dayNumber)
-
-        if (dayNumber + 1 <= 31) {
-          dayNumber = dayNumber + 1
-        }else{
-          dayNumber = 1
-          if (monthNumber + 1 <= 12){
-            monthNumber = monthNumber + 1
-          }else{
-            monthNumber = 1 
+        dateInfo.value[i].year = date.year
+        dateInfo.value[i].month = date.month
+        dateInfo.value[i].day = date.day
+        if (date.month <= 7) {
+          if (date.month == 2) {
+            if (date.year % 4 == 0) date = getDateAdd(29, date)
+            else date = getDateAdd(28, date)
+          } else {
+            if (date.month % 2 != 0) date = getDateAdd(31, date)
+            else date = getDateAdd(30, date)
           }
+        } else {
+          if (date.month % 2 != 0) date = getDateAdd(30, date)
+          else date = getDateAdd(31, date)
         }
-
       }
     }
     const changeDate = () => {
       year.value = parseInt(dateValue.value.split('-')[0])
       month.value = parseInt(dateValue.value.split('-')[1])
       day.value = parseInt(dateValue.value.split('-')[2])
-      
+
       refreshDateList()
     }
 
@@ -225,10 +262,21 @@ export default defineComponent({
       router.push("/");
     }
 
+    const date_ = () => {
+      return '1'
+    }
+
     // 预订按钮处理事件
     const book = (evt: any) => {
       outFocus(evt.target)
-      // router.push("/");
+      router.push({
+        path: '/book',
+        query: {
+          year: dateInfo.value[parseInt(active.value) - 1].year,
+          month: dateInfo.value[parseInt(active.value) - 1].month,
+          day: dateInfo.value[parseInt(active.value) - 1].day
+        }
+      });
     }
 
     const active = ref('6')

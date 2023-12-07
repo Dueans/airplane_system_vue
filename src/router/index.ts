@@ -5,6 +5,7 @@ import MainView from '../views/MainView.vue'
 import Welcome from '../views/Welcome.vue'
 import Student from '../views/Student.vue'
 import FlightView from '../views/FlightView.vue'
+import BookView from '../views/BookView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -24,6 +25,10 @@ const routes: Array<RouteRecordRaw> = [
       { path: '/showStudent', component: Student }
     ]
   },
+  {
+    path: '/book',
+    component: BookView,
+  }
 ]
 
 const router = createRouter({
