@@ -443,7 +443,6 @@ export default defineComponent({
 }
 
 .menu-item {
-
   display: flex;
   justify-content: center;
   color: #566573;

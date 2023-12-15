@@ -1,28 +1,17 @@
 <template>
   <el-container class="container">
     <el-header class="header-style">
-      <el-row :gutter="10">
-        <el-col :offset="10" :span="1">
+      <el-row>
+        <el-col :offset="10" :span="4">
           <div class="grid-content">
-            <span class="city-name"> {{ depart_city }} </span>
+            <span class="city-name"> 预订页 </span>
           </div>
         </el-col>
-        <el-col :span="2">
-          <div class="grid-content">
-            <img class="arrow" src="../pic/arrow_right.png">
-          </div>
-        </el-col>
-        <el-col :span="1">
-          <div class="grid-content">
-            <span class="city-name"> {{ dest_city }} </span>
-          </div>
-        </el-col>
-        <el-col :span="2" :offset="8">
+        <el-col :offset="8" :span="2" >
           <el-button class="back-button" size="medium" @click="back" round>返回</el-button>
         </el-col>
       </el-row>
     </el-header>
-
     <el-container class="main">
       <div style="width: 100%;">
         <!-- 日期 -->
@@ -92,7 +81,6 @@
 </template>
 
 <script lang="ts">
-import { it } from 'element-plus/es/locale';
 import { ref, onMounted, nextTick, defineComponent } from 'vue'
 import { useRouter, useRoute } from "vue-router";
 
@@ -140,6 +128,7 @@ export default defineComponent({
     }
 
     const book = (evt: any) => {
+      router.push('/confirm')
       outFocus(evt.target)
     }
     const date = ref('')
