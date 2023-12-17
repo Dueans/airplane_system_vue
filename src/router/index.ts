@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import MainView from '../views/MainView.vue'
 import PredictView from '../views/PredictView.vue'
 import RecordView from '../views/RecordView.vue'
+import DetailView from '../views/DetailView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -19,6 +20,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'record',
     component: RecordView
   },
+  {
+    path: '/detail',
+    name: 'detail',
+    component: DetailView
+  }
 ]
 
 const router = createRouter({
