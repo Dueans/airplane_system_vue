@@ -9,7 +9,7 @@
           <div class="search city">
             <div class="citys">出发地</div>
             <el-cascader style="width: 180px" class="citys-selector" placeholder="选择城市" v-model="depart_value"
-              :options="depart_citys" />
+              @change="depart_change" :options="depart_citys" />
           </div>
         </el-col>
         <!-- 目的地 -->
@@ -45,27 +45,42 @@
     </el-header>
 
     <el-main>
-      <el-table class="table" stripe :data="tableData" style="width: 100%">
-        <el-table-column prop="id" label="序号" sortable width="100" />
-        <el-table-column prop="depart" label="出发地" width="110" />
-        <el-table-column prop="destin" label="目的地" width="110" />
-        <el-table-column prop="class" label="舱位" width="110" />
-        <!-- <el-table-column prop="class" label="舱位" width="140" 
-        :filters="[
-          { text: '商务舱', value: 'business' },
-          { text: '经济舱', value: 'economy' },
-        ]" column-key="id" :filter-method="filterHandler" 
-        /> -->
-        <el-table-column prop="flightId" label="航班号" width="100" />
-        <el-table-column prop="departTime" label="出行时间" sortable width="140" />
-        <el-table-column prop="demand" sortable label="预测需求" width="120" />
-        <el-table-column prop="price" sortable label="预测价格" width="120" />
-        <el-table-column fixed="right" label="操作">
-          <el-button style="float: left;" type="info" :icon="Message" circle @click="getDetail" />
-          <el-button style="float: left;" type="danger" :icon="Delete" circle />
+      <el-table class="table" stripe :data="tableData" style="width: 100%" >
+        <el-table-column type="expand">
+          <template #default="scope">
+            <div m="4">
+              <el-table class="expand-table" :data="scope.row.predictAndReal" :header-cell-style="{ 'text-align': 'center' }"
+                :cell-style="{ 'text-align': 'center' }">
+                <el-table-column label="\" prop="preOrReal" />
+                <el-table-column label="经济舱">
+                  <el-table-column prop="eco_demand" label="需求"/>
+                  <el-table-column prop="eco_price" label="价格"/>
+                </el-table-column>
+
+                <el-table-column label="商务舱">
+                  <el-table-column prop="busi_demand" label="需求"/>
+                  <el-table-column prop="busi_price" label="价格"/>
+                </el-table-column>
+              </el-table>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="id" label="序号" sortable width="150" />
+        <el-table-column prop="depart" label="出发地" width="150" />
+        <el-table-column prop="destin" label="目的地" width="150" />
+        <el-table-column prop="flightId" label="航班号" width="150" />
+        <el-table-column prop="departTime" label="出行时间" sortable width="230" />
+        <el-table-column label="操作" >
+          <template #default="scope">
+            <el-button style="float: left;" type="info" :icon="Message" circle @click="getDetail" />
+            <el-button style="float: left;" type="danger" :icon="Delete" circle @click="deleteRow(scope.row.id, scope.$index)"/>
+          </template>
         </el-table-column>
 
       </el-table>
+      <el-pagination background layout="prev, pager, next, total" :total="tableData.length"
+        @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize" class="pagination">
+      </el-pagination>
     </el-main>
 
   </el-container>
@@ -93,7 +108,6 @@ export default defineComponent({
       price: number,
     }
 
-    const des_value = ref('')
     const depart_value = ref('')
     const depart_citys = [
       {
@@ -113,6 +127,12 @@ export default defineComponent({
         label: '云南',
       },
     ]
+    const depart_change = () => {
+      // 请求后端数据
+      console.log('出发地更改');
+    }
+
+    const des_value = ref('')
     const dest_citys = [
       {
         value: 'beijing',
@@ -131,9 +151,23 @@ export default defineComponent({
         label: '云南',
       },
     ]
+    const dest_change = () => {
+      // 请求后端数据
+      console.log('目的地更改');
+    }
 
     const date_value = ref('')
+    const date_change = () => {
+      // 请求后端数据
+      console.log('日期更改');
+    }
+
     const flight_search = ref('')
+    const flight_id_change = () => {
+      // 请求后端数据
+      console.log('搜索航班号');
+    }
+
     const class_name = ref('')
     const class_options = [
       {
@@ -150,7 +184,16 @@ export default defineComponent({
       },
     ]
 
-    const tableData = [{
+    const currentPage = ref(1)
+    const pageSize = ref(8)
+    const handleCurrentChange = (page: any) => {
+      currentPage.value = page;
+    }
+    const filterHandler = (value: any, row: any) => {
+      return row.class === value
+    }
+
+    const tableData = ref([{
       id: 1,
       depart: '北京',
       destin: '长沙',
@@ -159,6 +202,21 @@ export default defineComponent({
       departTime: '2023-12-15',
       demand: 100,
       price: 178,
+      predictAndReal: [{
+        preOrReal: '预测值',
+        eco_demand: '288',
+        eco_price: '$687',
+        busi_demand: '88',
+        busi_price: '$999',
+      },
+      {
+        preOrReal: '实际值',
+        eco_demand: '388',
+        eco_price: '$787',
+        busi_demand: '38',
+        busi_price: '$1399',
+      }]
+
     },
     {
       id: 2,
@@ -179,7 +237,15 @@ export default defineComponent({
       departTime: '2023-12-16',
       demand: 90,
       price: 176,
-    }]
+    }])
+    const deleteRow = (id: any, index: any) => {
+      console.log('删除记录');
+      
+      let tableIndex = 8 * (currentPage.value - 1) + index
+      tableData.value.splice(tableIndex, 1)
+    }
+
+
 
     const getDetail = () => {
       console.log('进入详情页')
@@ -206,8 +272,16 @@ export default defineComponent({
       class_name,
       class_options,
       tableData,
+      currentPage,
+      pageSize,
 
       getDetail,
+      depart_change,
+      dest_change,
+      date_change,
+      flight_id_change,
+      deleteRow,
+      handleCurrentChange,
       // filterHandler,
     }
   },
@@ -305,8 +379,19 @@ export default defineComponent({
 
 .table {
   position: relative;
-  height: 100%;
+  height: 430px;
   width: 100%;
   /* background-color: rgb(112, 13, 17); */
+}
+
+.expand-table {
+  left: 10%;
+  width: 80%;
+}
+
+.pagination {
+  margin-top: 12px;
+  text-align: center;
+  justify-content: center;
 }
 </style>
