@@ -73,7 +73,7 @@
         <el-table-column label="操作" >
           <template #default="scope">
             <el-button style="float: left;" type="info" :icon="Message" circle @click="getDetail" />
-            <el-button style="float: left;" type="danger" :icon="Delete" circle @click="deleteRow(scope.row.id, scope.$index)"/>
+            <el-button style="float: left;" type="danger" :icon="Delete" circle @click="deleteRow($event, scope.row.id, scope.$index)"/>
           </template>
         </el-table-column>
 
@@ -189,9 +189,6 @@ export default defineComponent({
     const handleCurrentChange = (page: any) => {
       currentPage.value = page;
     }
-    const filterHandler = (value: any, row: any) => {
-      return row.class === value
-    }
 
     const tableData = ref([{
       id: 1,
@@ -238,14 +235,32 @@ export default defineComponent({
       demand: 90,
       price: 176,
     }])
-    const deleteRow = (id: any, index: any) => {
+
+    // 点击后失焦
+    const outFocus = (target: any) => {
+      console.log(target.nodeName);
+
+      if (target.nodeName == "DIV" || target.nodeName == "svg") {
+        target = target.parentNode.parentNode;
+      }
+      if (target.nodeName == "SPAN" || target.nodeName == "I") {
+        target = target.parentNode;
+      }
+      if (target.nodeName == "path") {
+        target = target.parentNode.parentNode.parentNode;
+      }
+
+      console.log(target);
+      target.blur();
+    }
+
+    const deleteRow = (evt: any, id: any, index: any) => {
       console.log('删除记录');
       
       let tableIndex = 8 * (currentPage.value - 1) + index
       tableData.value.splice(tableIndex, 1)
+      outFocus(evt.target)
     }
-
-
 
     const getDetail = () => {
       console.log('进入详情页')
@@ -304,7 +319,6 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-color: #0f4a27; */
 }
 
 .city {
@@ -313,12 +327,6 @@ export default defineComponent({
   align-items: center;
   justify-content: center; */
 
-}
-
-.date {}
-
-.order {
-  /* background-color: #b36b90; */
 }
 
 .header {
@@ -345,36 +353,6 @@ export default defineComponent({
 .search-flight {
   width: 180px;
   height: 33px;
-}
-
-.el-select {
-  width: 170px;
-  height: 34px;
-
-  .el-input__inner {
-    height: 34px;
-  }
-
-  .el-input__prefix,
-  .el-input__suffix {
-    height: 34px;
-  }
-
-  /* 下面设置右侧按钮居中 */
-  .el-input__suffix {
-    top: 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-content: flex-start;
-  }
-
-  /* 输入框加上上下边是 32px + 2px =34px */
-  .el-input__icon {
-    line-height: 34px;
-  }
 }
 
 .table {

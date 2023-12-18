@@ -27,13 +27,6 @@
             <el-date-picker style="width: 150px" v-model="date_value" type="date" placeholder="选择时间" size="default" />
           </div>
         </el-col>
-        <!-- 选择舱位 -->
-        <!-- <el-col :span="6">
-          <div class="search">
-            <el-cascader style="width: 170px" class="class-selector" placeholder="选择舱位" v-model="class_name"
-              :options="class_options" />
-          </div>
-        </el-col> -->
 
         <el-col :offset="1" :span="2">
           <div class="search">
@@ -129,8 +122,6 @@ export default defineComponent({
     const valueList = data.map(function (item) {
       return item[1];
     });
-
-
 
     const query = ref({
       depart: 'all',

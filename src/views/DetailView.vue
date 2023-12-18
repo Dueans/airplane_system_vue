@@ -6,22 +6,25 @@
       <el-row class="header">
         <!-- 出发地 -->
         <el-col :span="5">
-          <div class="search city">
-            <div class="citys">出发地：{{ depart_city }}</div>
+          <div class="search date">
+            <div class="infos">{{ depart_time }}</div>&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="infos">{{ flight_id }}</div>
 
           </div>
         </el-col>
         <!-- 目的地 -->
-        <el-col :span="6">
-          <div class="search city">
-            <div class="citys">目的地：{{ des_city }}</div>
-
+        <el-col :offset="3" :span="7">
+          <div class="search depart-dest">
+            <div class="dur-time">{{ dur_time }}</div>
+            <div class="citys">{{ depart_city }}&nbsp;&nbsp;&nbsp;</div>
+            <img class="arrow" src="../pic/arr_arrow.png">
+            <div class="citys">&nbsp;&nbsp;&nbsp; {{ des_city }}</div>
           </div>
         </el-col>
         <!-- 起飞时间 -->
-        <el-col :span="5">
-          <div class="search date">
-            <div class="citys">起飞时间：{{ depart_time }}</div>
+        <el-col :offset="6" :span="3">
+          <div class="search flight-id">
+            <el-button @click="handleBack" style="width: 80px; height: 36px;" round>返回</el-button>
           </div>
         </el-col>
       </el-row>
@@ -29,10 +32,8 @@
 
     <el-main>
       <div id="bar1" class="picture">
-
       </div>
       <div id="bar2" class="picture">
-
       </div>
     </el-main>
 
@@ -49,10 +50,15 @@ export default defineComponent({
   name: 'PredictView',
 
   setup(props) {
+    const router = useRouter()
+
     const depart_city = ref('北京')
     const des_city = ref('上海')
 
     const depart_time = ref('2023-12-16')
+    const flight_id = ref('HU8513')
+
+    const dur_time = ref('5h30min')
 
     const showBar = () => {
       var chartDom = document.getElementById('bar1')!;
@@ -125,6 +131,25 @@ export default defineComponent({
 
     }
 
+    // 点击后失焦
+    const outFocus = (target: any) => {
+      console.log(target.nodeName);
+
+      if (target.nodeName == "DIV") {
+        target = target.parentNode.parentNode;
+      }
+      if (target.nodeName == "SPAN") {
+        target = target.parentNode;
+      }
+
+      console.log(target);
+      target.blur();
+    }
+    const handleBack = (evt: any) => {
+      outFocus(evt.target)
+      router.back()
+    }
+
 
     onMounted(() => {
       nextTick(() => {
@@ -137,8 +162,11 @@ export default defineComponent({
       depart_city,
       des_city,
       depart_time,
+      flight_id,
+      dur_time,
 
       showBar,
+      handleBack,
     }
   },
 })
@@ -161,8 +189,14 @@ export default defineComponent({
   position: relative;
   float: left;
   margin-right: 10px;
+  font-size: 22px;
+}
+
+.infos {
+  position: relative;
+  float: left;
+  margin-right: 10px;
   font-size: 17px;
-  /* margin-top: 4px; */
 }
 
 .search {
@@ -173,22 +207,36 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-color: #0f4a27; */
-}
-
-.search-flight {
-  width: 180px;
-  height: 33px;
-}
-
-.predict-button {
-  width: 90px;
 }
 
 .picture {
   float: left;
   width: 50%;
   height: 100%;
-  /* background-color: bisque; */
+}
+
+.date {
+  /* background-color: aquamarine; */
+}
+
+.depart-dest {
+  /* background-color: blueviolet; */
+}
+
+.flight-id {
+  /* background-color: coral; */
+}
+
+.arrow {
+  position: relative;
+  top: 6px;
+  width: 70px;
+  height: 40px;
+}
+
+.dur-time {
+  position: absolute;
+  top: 4px;
+  left: 39%;
 }
 </style>
