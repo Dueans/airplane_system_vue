@@ -6,7 +6,7 @@
       <el-row class="header">
         <!-- 出发地 -->
         <el-col :span="6">
-          <div class="search city">
+          <div class="search">
             <div class="citys">出发地</div>
             <el-cascader style="width: 180px" class="citys-selector" placeholder="选择城市" v-model="depart_value"
               @change="depart_change" :options="depart_citys" />
@@ -14,7 +14,7 @@
         </el-col>
         <!-- 目的地 -->
         <el-col :span="6">
-          <div class="search city">
+          <div class="search">
             <div class="citys">目的地</div>
             <el-cascader style="width: 180px" class="citys-selector" placeholder="选择城市" v-model="des_value"
               :options="dest_citys" />
@@ -22,7 +22,7 @@
         </el-col>
         <!-- 起飞时间 -->
         <el-col :span="6">
-          <div class="search date">
+          <div class="search">
             <div class="citys">起飞时间</div>
             <el-date-picker style="width: 180px" v-model="date_value" type="date" placeholder="选择时间" size="default" />
           </div>
@@ -297,7 +297,6 @@ export default defineComponent({
       flight_id_change,
       deleteRow,
       handleCurrentChange,
-      // filterHandler,
     }
   },
 })
@@ -308,7 +307,6 @@ export default defineComponent({
   position: relative;
   height: 100%;
   width: 100%;
-  /* background-color: cadetblue; */
 }
 
 .search {
@@ -321,19 +319,10 @@ export default defineComponent({
   justify-content: center;
 }
 
-.city {
-  /* 垂直水平居中 */
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
-
-}
-
 .header {
   position: relative;
   height: 100%;
   width: 100%;
-  /* background-color: #ABEBC6; */
 }
 
 .citys {
@@ -341,13 +330,11 @@ export default defineComponent({
   float: left;
   margin-right: 10px;
   font-size: 15px;
-  /* margin-top: 4px; */
 }
 
 .citys-selector {
   position: relative;
   float: left;
-  /* max-width: 100px; */
 }
 
 .search-flight {
@@ -359,7 +346,6 @@ export default defineComponent({
   position: relative;
   height: 430px;
   width: 100%;
-  /* background-color: rgb(112, 13, 17); */
 }
 
 .expand-table {

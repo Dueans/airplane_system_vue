@@ -6,23 +6,23 @@
       <el-row class="header">
         <!-- 出发地 -->
         <el-col :span="5">
-          <div class="search city">
+          <div class="search">
             <div class="citys">出发地</div>
-            <el-cascader style="width: 150px" class="citys-selector" placeholder="选择城市" v-model="depart_value"
+            <el-cascader style="width: 150px" placeholder="选择城市" v-model="depart_value"
               :options="depart_citys" />
           </div>
         </el-col>
         <!-- 目的地 -->
         <el-col :span="6">
-          <div class="search city">
+          <div class="search">
             <div class="citys">目的地</div>
-            <el-cascader style="width: 150px" class="citys-selector" placeholder="选择城市" v-model="des_value"
+            <el-cascader style="width: 150px" placeholder="选择城市" v-model="des_value"
               :options="dest_citys" />
           </div>
         </el-col>
         <!-- 起飞时间 -->
         <el-col :span="5">
-          <div class="search date">
+          <div class="search">
             <div class="citys">起飞时间</div>
             <el-date-picker style="width: 150px" v-model="date_value" type="date" placeholder="选择时间" size="default" />
           </div>
@@ -37,7 +37,7 @@
     </el-header>
 
     <el-main>
-      <el-cascader style="width: 170px; float: left; left: 1%;" class="class-selector" placeholder="选择舱位"
+      <el-cascader style="width: 170px; float: left; left: 1%;" placeholder="选择舱位"
         v-model="class_name" :options="class_options" @click="class_change" />
       <div id="line1" class="picture">
 
@@ -266,14 +266,12 @@ export default defineComponent({
   position: relative;
   height: 100%;
   width: 100%;
-  /* background-color: #F39C12; */
 }
 
 .header {
   position: relative;
   height: 100%;
   width: 100%;
-  /* background-color: #ABEBC6; */
 }
 
 .citys {
@@ -281,7 +279,6 @@ export default defineComponent({
   float: left;
   margin-right: 10px;
   font-size: 15px;
-  /* margin-top: 4px; */
 }
 
 .search {
@@ -292,7 +289,6 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-color: #0f4a27; */
 }
 
 .search-flight {
@@ -308,8 +304,6 @@ export default defineComponent({
   top: 8%;
   width: 100%;
   height: 90%;
-  /* background-color: bisque; */
 }
 
-.class-selector {}
 </style>

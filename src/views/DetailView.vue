@@ -189,7 +189,7 @@ export default defineComponent({
   position: relative;
   float: left;
   margin-right: 10px;
-  font-size: 22px;
+  font-size: 21px;
 }
 
 .infos {

@@ -6,7 +6,7 @@
       <el-row class="header">
         <!-- 出发地 -->
         <el-col :span="6">
-          <div class="search city">
+          <div class="search">
             <div class="citys">出发地</div>
             <el-cascader style="width: 180px" class="citys-selector" placeholder="选择城市" v-model="depart_value"
             @change="depart_change" :options="depart_citys" />
@@ -14,7 +14,7 @@
         </el-col>
         <!-- 目的地 -->
         <el-col :span="6">
-          <div class="search city">
+          <div class="search">
             <div class="citys">目的地</div>
             <el-cascader style="width: 180px" class="citys-selector" placeholder="选择城市" v-model="des_value"
             @change="dest_change" :options="dest_citys" />
@@ -22,7 +22,7 @@
         </el-col>
         <!-- 起飞时间 -->
         <el-col :span="6">
-          <div class="search date">
+          <div class="search">
             <div class="citys">起飞时间</div>
             <el-date-picker style="width: 180px" v-model="date_value" type="date" 
             @change="date_change" placeholder="选择时间" size="default" />
@@ -35,14 +35,6 @@
             @change="flight_id_change" :prefix-icon="Search" />
           </div>
         </el-col>
-        <!-- 排序框 -->
-        <!-- <el-col :span="4">
-          <div class="search order">
-            <el-select v-model="class_name" class="order-selector" placeholder="所有舱位">
-              <el-option v-for="item in class_options" :key="item.value" :label="item.label" :value="item.value" />
-            </el-select>
-          </div>
-        </el-col> -->
       </el-row>
     </el-header>
 
@@ -51,7 +43,6 @@
         <el-table-column prop="id" label="序号" sortable width="100" />
         <el-table-column prop="depart" label="出发地" width="140" />
         <el-table-column prop="destin" label="目的地" width="140" />
-        <!-- <el-table-column prop="class" label="舱位" width="140" /> -->
         <el-table-column prop="class" label="舱位" width="140" :filters="[
           { text: '商务舱', value: '商务舱' },
           { text: '经济舱', value: '经济舱' },
@@ -64,16 +55,11 @@
             <el-button type="danger" :icon="Delete" circle @click.prevent="handleDelete(scope.row.id, scope.$index)" />
           </template>
         </el-table-column>
-
       </el-table>
-
       <el-pagination background layout="prev, pager, next, total" :total="tableData.length"
         @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize" class="pagination">
       </el-pagination>
-
-
     </el-main>
-
   </el-container>
 </template>
 
@@ -347,7 +333,6 @@ export default defineComponent({
   position: relative;
   height: 100%;
   width: 100%;
-  /* background-color: cadetblue; */
 }
 
 .search {
@@ -358,28 +343,12 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-color: #0f4a27; */
-}
-
-.city {
-  /* 垂直水平居中 */
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
-
-}
-
-.date {}
-
-.order {
-  /* background-color: #b36b90; */
 }
 
 .header {
   position: relative;
   height: 100%;
   width: 100%;
-  /* background-color: #ABEBC6; */
 }
 
 .citys {
@@ -387,13 +356,11 @@ export default defineComponent({
   float: left;
   margin-right: 10px;
   font-size: 15px;
-  /* margin-top: 4px; */
 }
 
 .citys-selector {
   position: relative;
   float: left;
-  /* max-width: 100px; */
 }
 
 .search-flight {
@@ -401,41 +368,10 @@ export default defineComponent({
   height: 33px;
 }
 
-.el-select {
-  width: 170px;
-  height: 34px;
-
-  .el-input__inner {
-    height: 34px;
-  }
-
-  .el-input__prefix,
-  .el-input__suffix {
-    height: 34px;
-  }
-
-  /* 下面设置右侧按钮居中 */
-  .el-input__suffix {
-    top: 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-content: flex-start;
-  }
-
-  /* 输入框加上上下边是 32px + 2px =34px */
-  .el-input__icon {
-    line-height: 34px;
-  }
-}
-
 .table {
   position: relative;
   height: 430px;
   width: 100%;
-  /* background-color: rgb(112, 13, 17); */
 }
 
 .pagination {
